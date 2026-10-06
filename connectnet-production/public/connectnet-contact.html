@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us – ConnectNet</title>
+
+<style>
+:root{--pri:#1a6cff;--navy:#07173a;--navy2:#0d3a8a;--bg:#f4f8ff;--card:#fff;--ink:#0a1f44;--mut:#5b6b88;--line:#e3eaf6;--shadow:0 8px 24px rgba(10,31,68,.08)}
+:root[data-theme="dark"]{--bg:#0b1324;--card:#131f3d;--ink:#eaf0ff;--mut:#9fb0d0;--line:#23325a;--shadow:0 8px 24px rgba(0,0,0,.35);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}button,input,textarea{font:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:10px;font-weight:600;font-size:14px;border:1.5px solid var(--pri);color:var(--pri);background:transparent;cursor:pointer;transition:.2s}
+.btn.p{background:var(--pri);color:#fff}.btn:hover{transform:translateY(-2px)}
+:focus-visible{outline:3px solid #22c3ff;outline-offset:2px}
+/* Header */
+header{position:sticky;top:0;z-index:50;background:var(--card);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:14px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:21px;color:var(--pri)}
+.logo svg{width:32px;height:32px}.logo small{display:block;font-size:9px;font-weight:600;color:var(--mut);margin-top:-3px}
+.links{display:flex;gap:26px;font-size:14px;font-weight:500}
+.links a{padding:6px 0;border-bottom:2px solid transparent}.links a:hover,.links a.on{border-color:var(--pri)}
+.actions{display:flex;gap:10px;align-items:center}
+.burger{display:none;background:none;border:0;font-size:26px;color:var(--ink);cursor:pointer}
+.tgl{position:relative;flex:none;width:68px;height:34px;border-radius:99px;border:1.5px solid var(--line);background:linear-gradient(135deg,#bfe3ff,#ffe9a8);cursor:pointer;padding:0}
+.tgl .k{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:15px;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .35s}
+.tgl .k::before{content:"☀️"}
+[data-theme="dark"] .tgl{background:linear-gradient(135deg,#0b1130,#25358a)}
+[data-theme="dark"] .tgl .k{transform:translateX(34px);background:#1b2550}
+[data-theme="dark"] .tgl .k::before{content:"🌙"}
+/* Hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(110deg,var(--navy) 40%,var(--navy2));padding:54px 0}
+.hero::after{content:"";position:absolute;right:-60px;top:-80px;width:340px;height:340px;border-radius:50%;background:#1a6cff;filter:blur(70px);opacity:.5}
+.hero .wrap{position:relative;display:flex;align-items:center;gap:18px}
+.hero .pin{width:54px;height:54px;border-radius:50%;background:var(--pri);display:grid;place-items:center;font-size:26px;flex:none}
+.hero h1{font-size:clamp(30px,5vw,44px);line-height:1.1}.hero p{color:#cfdcf5;max-width:440px;margin-top:6px}
+/* Grid */
+.grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:22px;padding:34px 0 50px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+.card h2{font-size:18px;margin-bottom:14px}
+form label{display:block;font-size:13px;font-weight:600;margin:12px 0 4px}
+form label i{color:#dc2626;font-style:normal}
+form input,form textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+form textarea{min-height:120px;resize:vertical}
+form .btn{width:100%;margin-top:16px;padding:13px}
+.msg{font-size:13px;min-height:20px;margin-top:10px;color:#dc2626}.msg.ok{color:#16a34a}
+.ci{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.ci i{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-style:normal;background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c)}
+.ci b{display:block;font-size:14px}.ci span{display:block;font-size:13px;color:var(--mut)}
+.social{display:flex;gap:10px;margin-top:16px;align-items:center}.social b{font-size:14px;margin-right:4px}
+.social a{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700}
+/* FAQ */
+.faq{border-bottom:1px solid var(--line)}
+.faq button{width:100%;display:flex;justify-content:space-between;gap:10px;text-align:left;background:none;border:0;color:var(--ink);padding:14px 0;font-size:14px;font-weight:600;cursor:pointer}
+.faq button::after{content:"›";font-size:20px;transition:.25s;color:var(--mut)}
+.faq.open button::after{transform:rotate(90deg)}
+.faq p{display:none;font-size:13px;color:var(--mut);padding-bottom:14px}.faq.open p{display:block}
+.more{display:inline-block;margin-top:14px;color:var(--pri);font-weight:600;font-size:14px}
+/* Footer */
+footer{background:var(--navy);color:#cfdcf5;padding:40px 0 18px;font-size:14px}
+.fg{display:grid;grid-template-columns:1.3fr 1fr 1.3fr 1fr;gap:28px}
+footer h4{color:#fff;margin-bottom:10px}footer a{display:block;margin:6px 0;opacity:.85}footer a:hover{opacity:1;color:#22c3ff}
+.copy{border-top:1px solid rgba(255,255,255,.12);margin-top:26px;padding-top:14px;text-align:center;font-size:12px;opacity:.7}
+@media(max-width:980px){.grid{grid-template-columns:1fr 1fr}.grid .card:first-child{grid-column:1/-1}.fg{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){
+  .burger{display:block}.actions .btn{display:none}
+  .links{display:none;position:absolute;top:66px;left:0;right:0;background:var(--card);flex-direction:column;gap:0;padding:6px 20px 14px;border-bottom:1px solid var(--line)}
+  .links.open{display:flex}.links a{padding:12px 0;border-bottom:1px solid var(--line)}
+}
+@media(max-width:600px){.grid,.fg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="connectnet-homepage.html"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M5 15a22 22 0 0 1 30 0"/><path d="M10 21a15 15 0 0 1 20 0"/><path d="M15 27a8 8 0 0 1 10 0"/><circle cx="20" cy="33" r="2" fill="currentColor"/></svg><span>ConnectNet<small>Stay Connected, Achieve More</small></span></a>
+    <nav class="links" id="menu">
+      <a href="connectnet-homepage.html">Home</a><a href="connectnet-homepage.html#packages">Packages</a><a href="connectnet-homepage.html#locations">Locations</a><a href="connectnet-homepage.html#about">About</a><a href="#" class="on">Support</a>
+    </nav>
+    <div class="actions">
+      <button class="tgl" id="theme" role="switch" aria-checked="false" aria-label="Day / night mode"><span class="k"></span></button>
+      <a class="btn p" href="connectnet-homepage.html#packages">Get Wi-Fi</a>
+      <button class="burger" id="burger" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero"><div class="wrap">
+  <div class="pin">💬</div>
+  <div><h1>Contact Us</h1><p>We're here to help! Get in touch with us for any questions, support or feedback.</p></div>
+</div></div>
+
+<div class="wrap grid">
+  <section class="card">
+    <h2>Send Us a Message</h2>
+    <form id="form" novalidate>
+      <label for="n">Full Name <i>*</i></label><input id="n" placeholder="Enter your name" autocomplete="name">
+      <label for="e">Email Address <i>*</i></label><input id="e" type="email" placeholder="Enter your email" autocomplete="email">
+      <label for="p">Phone Number <i>*</i></label><input id="p" type="tel" placeholder="Enter your phone number" autocomplete="tel">
+      <label for="m">Message <i>*</i></label><textarea id="m" placeholder="Type your message..."></textarea>
+      <div class="msg" id="msg" role="alert"></div>
+      <button class="btn p" type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Our Contact Information</h2>
+    <div class="ci" style="--c:#1a6cff"><i>📞</i><div><b>Phone</b><span>+233 54 636 9715</span><span>+233 54 636 9715</span></div></div>
+    <div class="ci" style="--c:#16a34a"><i>💬</i><div><b>WhatsApp</b><span>+233 55 087 9586</span><span>Chat with us instantly</span></div></div>
+    <div class="ci" style="--c:#7c3aed"><i>✉️</i><div><b>Email</b><span>support@connectnet.com</span><span>We'll respond within 24 hours.</span></div></div>
+    <div class="ci" style="--c:#f59e0b;border:0"><i>📍</i><div><b>Location</b><span>Accra, Ghana</span><span>(Head Office)</span></div></div>
+    <div class="social"><b>Follow Us</b>
+      <a href="#" style="background:#1877f2" aria-label="Facebook">f</a><a href="#" style="background:#1da1f2" aria-label="X">X</a><a href="#" style="background:#e1306c" aria-label="Instagram">in</a><a href="#" style="background:#ff0000" aria-label="YouTube">▶</a></div>
+  </section>
+
+  <section class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq"><button aria-expanded="false">How do I get my Wi-Fi login details?</button><p>After payment, your username and password are sent to you instantly by SMS and shown on screen.</p></div>
+    <div class="faq"><button aria-expanded="false">What payment methods do you accept?</button><p>MTN, Vodafone and AirtelTigo Mobile Money, plus Visa / Mastercard.</p></div>
+    <div class="faq"><button aria-expanded="false">Is the internet available 24/7?</button><p>Yes. Our hotspots run around the clock, with support available during working hours.</p></div>
+    <div class="faq"><button aria-expanded="false">How can I reset my password?</button><p>Contact support on WhatsApp with your username and phone number and we'll reset it for you.</p></div>
+    <a class="more" href="#">View More FAQs →</a>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap"><div class="fg">
+    <div><b style="color:#fff;font-size:20px">📶 ConnectNet</b><p>Stay Connected, Achieve More</p></div>
+    <div><h4>Quick Links</h4><a href="connectnet-homepage.html">Home</a><a href="connectnet-homepage.html#packages">Packages</a><a href="connectnet-homepage.html#locations">Locations</a><a href="connectnet-homepage.html#about">About Us</a><a href="#">Support</a></div>
+    <div><h4>Contact Us</h4><a href="tel:+233546369715">📞 +233 54 636 9715</a><a href="https://wa.me/233550879586">💬 WhatsApp: +233 55 087 9586</a><a href="mailto:support@connectnet.com">✉️ support@connectnet.com</a><a href="#">📍 Accra, Ghana</a></div>
+    <div><h4>Follow Us</h4><a href="#">Facebook</a><a href="#">X</a><a href="#">Instagram</a><a href="#">YouTube</a></div>
+  </div><div class="copy">© <span id="yr"></span> ConnectNet. All rights reserved.</div></div>
+</footer>
+
+
+
+<script src="/js/support"></script>
+</body>
+</html>

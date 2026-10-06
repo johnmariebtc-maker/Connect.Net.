@@ -1,0 +1,3464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ConnectNet Admin | Voucher Management</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #087cf5;
+    --primary-dark: #0562c5;
+    --dark: #071f3d;
+    --dark-2: #0d315a;
+    --light: #f4f8fc;
+    --white: #ffffff;
+    --text: #173557;
+    --muted: #718096;
+    --border: #dce6f0;
+    --green: #18a965;
+    --red: #e53935;
+    --orange: #f59e0b;
+    --purple: #7c3aed;
+    --shadow: 0 8px 25px rgba(22, 60, 100, .08);
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--light);
+    color: var(--text);
+}
+
+/* ==============================
+   LAYOUT
+============================== */
+
+.app {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* ==============================
+   SIDEBAR
+============================== */
+
+.sidebar {
+    width: 245px;
+    background: var(--dark);
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    padding: 22px 15px;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px 25px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    margin-bottom: 20px;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #087cf5, #13c8f1);
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+}
+
+.logo-text {
+    font-weight: 800;
+    font-size: 19px;
+}
+
+.logo-text small {
+    display: block;
+    font-size: 9px;
+    color: #8edbff;
+    letter-spacing: .5px;
+}
+
+.menu-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #7591b0;
+    font-weight: 800;
+    padding: 10px;
+    letter-spacing: 1px;
+}
+
+.menu-item {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #c9d8e9;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 12px;
+    margin: 3px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background: rgba(8,124,245,.22);
+    color: white;
+}
+
+.menu-icon {
+    width: 24px;
+    text-align: center;
+}
+
+/* ==============================
+   MAIN
+============================== */
+
+.main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+}
+
+/* ==============================
+   TOP BAR
+============================== */
+
+.topbar {
+    height: 72px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+.mobile-menu {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.topbar-title h2 {
+    font-size: 20px;
+}
+
+.topbar-title p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-avatar {
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    background: #e7f3ff;
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+}
+
+.admin-profile strong {
+    font-size: 13px;
+}
+
+.admin-profile small {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* ==============================
+   CONTENT
+============================== */
+
+.content {
+    padding: 28px;
+    max-width: 1500px;
+    margin: auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ==============================
+   DASHBOARD CARDS
+============================== */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 17px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+}
+
+.blue {
+    background: #e8f3ff;
+    color: var(--primary);
+}
+
+.green {
+    background: #e6f8ef;
+    color: var(--green);
+}
+
+.orange {
+    background: #fff4df;
+    color: var(--orange);
+}
+
+.purple {
+    background: #f0eaff;
+    color: var(--purple);
+}
+
+.stat-card h3 {
+    font-size: 26px;
+    margin-top: 15px;
+}
+
+.stat-card p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* ==============================
+   CARD
+============================== */
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 22px;
+    margin-bottom: 24px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card-header h2 {
+    font-size: 19px;
+}
+
+.card-header p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+
+.btn {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 17px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-success {
+    background: var(--green);
+    color: white;
+}
+
+.btn-danger {
+    background: var(--red);
+    color: white;
+}
+
+.btn-outline {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+}
+
+.btn-small {
+    padding: 7px 10px;
+    font-size: 11px;
+}
+
+/* ==============================
+   VOUCHER GENERATOR
+============================== */
+
+.generator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 22px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.input,
+.select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cfdae6;
+    border-radius: 8px;
+    outline: none;
+    background: white;
+    color: var(--text);
+}
+
+.input:focus,
+.select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(8,124,245,.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.package-preview {
+    border: 1px dashed #b8cee3;
+    background: #f8fbff;
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 10px;
+}
+
+.package-preview strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.package-preview p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* ==============================
+   VOUCHER TABLE
+============================== */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+th {
+    background: #f5f8fb;
+    text-align: left;
+    padding: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #61758d;
+    letter-spacing: .5px;
+}
+
+td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #edf1f5;
+    font-size: 13px;
+}
+
+tr:hover td {
+    background: #fbfdff;
+}
+
+.voucher-code {
+    font-family: monospace;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--primary);
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.badge-active {
+    color: #087a45;
+    background: #dff7eb;
+}
+
+.badge-used {
+    color: #64748b;
+    background: #edf1f5;
+}
+
+.badge-expired {
+    color: #b91c1c;
+    background: #fee2e2;
+}
+
+.badge-pending {
+    color: #9a6700;
+    background: #fff1c7;
+}
+
+.actions {
+    display: flex;
+    gap: 5px;
+}
+
+/* ==============================
+   SEARCH
+============================== */
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.search-box {
+    max-width: 350px;
+    width: 100%;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 11px 13px 11px 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    left: 13px;
+    top: 10px;
+}
+
+/* ==============================
+   RECENT SALES
+============================== */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 22px;
+}
+
+.empty {
+    text-align: center;
+    padding: 45px 20px;
+    color: var(--muted);
+}
+
+/* ==============================
+   MODAL
+============================== */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(3,25,50,.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 500;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    width: min(500px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close {
+    border: none;
+    background: #f1f5f9;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* ==============================
+   GENERATED VOUCHERS
+============================== */
+
+.generated-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.generated-voucher {
+    border: 1px dashed #9db7d0;
+    padding: 14px;
+    border-radius: 9px;
+    text-align: center;
+    background: #f9fcff;
+}
+
+.generated-voucher strong {
+    display: block;
+    font-family: monospace;
+    color: var(--primary);
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+.generated-voucher span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media(max-width: 1100px) {
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .generator-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 750px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .content {
+        padding: 18px 13px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .toolbar {
+        flex-direction: column;
+    }
+
+    .search-box {
+        max-width: 100%;
+    }
+}
+
+@media(max-width: 450px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-profile div {
+        display: none;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            📶
+        </div>
+
+        <div class="logo-text">
+            ConnectNet
+            <small>ADMIN PORTAL</small>
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        Main
+    </div>
+
+
+    <button
+        class="menu-item active"
+        onclick="showPage('dashboard', this)"
+    >
+        <span class="menu-icon">📊</span>
+        Dashboard
+    </button>
+
+
+    <button
+        class="menu-item"
+        onclick="showPage('vouchers', this)"
+    >
+        <span class="menu-icon">🎟️</span>
+        Vouchers
+    </button>
+
+
+    <button
+        class="menu-item"
+        onclick="showPage('packages', this)"
+    >
+        <span class="menu-icon">📦</span>
+        Packages
+    </button>
+
+
+    <button
+        class="menu-item"
+        onclick="showPage('customers', this)"
+    >
+        <span class="menu-icon">👥</span>
+        Customers
+    </button>
+
+
+    <div class="menu-title">
+        Business
+    </div>
+
+
+    <button
+        class="menu-item"
+        onclick="showPage('sales', this)"
+    >
+        <span class="menu-icon">💳</span>
+        Purchases
+    </button>
+
+
+    <button
+        class="menu-item"
+        onclick="showPage('support', this)"
+    >
+        <span class="menu-icon">🎧</span>
+        Support
+    </button>
+
+
+    <button
+        class="menu-item"
+        onclick="showPage('hotspots', this)"
+    >
+        <span class="menu-icon">📡</span>
+        Hotspots
+    </button>
+
+
+    <div class="menu-title">
+        System
+    </div>
+
+
+    <button
+        class="menu-item"
+        onclick="showPage('settings', this)"
+    >
+        <span class="menu-icon">⚙️</span>
+        Settings
+    </button>
+
+
+    <button
+        class="menu-item"
+        onclick="logout()"
+    >
+        <span class="menu-icon">🚪</span>
+        Logout
+    </button>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+<!-- TOP BAR -->
+
+<header class="topbar">
+
+    <div style="display:flex;align-items:center;gap:15px">
+
+        <button
+            class="mobile-menu"
+            onclick="toggleSidebar()"
+        >
+            ☰
+        </button>
+
+        <div class="topbar-title">
+
+            <h2 id="pageTitle">
+                Dashboard
+            </h2>
+
+            <p>
+                Manage your ConnectNet hotspot business
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-profile">
+
+        <div class="admin-avatar">
+            AD
+        </div>
+
+        <div>
+
+            <strong>
+                Administrator
+            </strong>
+
+            <small>
+                Super Admin
+            </small>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<div class="content">
+
+
+<!-- =========================================================
+     DASHBOARD PAGE
+========================================================= -->
+
+<section
+    id="dashboard"
+    class="page active"
+>
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <p>
+                        Total Vouchers
+                    </p>
+
+                    <h3 id="totalVouchers">
+                        0
+                    </h3>
+
+                </div>
+
+                <div class="stat-icon blue">
+                    🎟️
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <p>
+                        Active Vouchers
+                    </p>
+
+                    <h3 id="activeVouchers">
+                        0
+                    </h3>
+
+                </div>
+
+                <div class="stat-icon green">
+                    ✓
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <p>
+                        Vouchers Used
+                    </p>
+
+                    <h3 id="usedVouchers">
+                        0
+                    </h3>
+
+                </div>
+
+                <div class="stat-icon orange">
+                    📶
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <p>
+                        Revenue
+                    </p>
+
+                    <h3 id="revenue">
+                        GH₵ 0
+                    </h3>
+
+                </div>
+
+                <div class="stat-icon purple">
+                    💰
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="dashboard-grid">
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Recent Vouchers
+                    </h2>
+
+                    <p>
+                        Recently generated hotspot vouchers
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="showPageById('vouchers')"
+                >
+                    Manage
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Voucher
+                            </th>
+
+                            <th>
+                                Package
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Created
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="recentVouchers">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <p>
+                        Frequently used admin functions
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn btn-primary"
+                style="width:100%;margin-bottom:10px"
+                onclick="openVoucherModal()"
+            >
+                🎟️ Generate Vouchers
+            </button>
+
+
+            <button
+                class="btn btn-outline"
+                style="width:100%;margin-bottom:10px"
+                onclick="showPageById('customers')"
+            >
+                👥 View Customers
+            </button>
+
+
+            <button
+                class="btn btn-outline"
+                style="width:100%;margin-bottom:10px"
+                onclick="showPageById('sales')"
+            >
+                💳 View Purchases
+            </button>
+
+
+            <button
+                class="btn btn-outline"
+                style="width:100%"
+                onclick="showPageById('support')"
+            >
+                🎧 Support Tickets
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     VOUCHERS PAGE
+========================================================= -->
+
+<section
+    id="vouchers"
+    class="page"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Voucher Management
+                </h2>
+
+                <p>
+                    Generate and manage your hotspot access codes.
+                </p>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                onclick="openVoucherModal()"
+            >
+                + Generate Vouchers
+            </button>
+
+        </div>
+
+
+        <div class="toolbar">
+
+            <div class="search-box">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    type="text"
+                    id="voucherSearch"
+                    placeholder="Search voucher..."
+                    oninput="renderVouchers()"
+                >
+
+            </div>
+
+
+            <select
+                class="select"
+                id="statusFilter"
+                style="max-width:180px"
+                onchange="renderVouchers()"
+            >
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="used">
+                    Used
+                </option>
+
+                <option value="expired">
+                    Expired
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Voucher Code
+                        </th>
+
+                        <th>
+                            Package
+                        </th>
+
+                        <th>
+                            Duration
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Created
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="voucherTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PACKAGES PAGE
+========================================================= -->
+
+<section
+    id="packages"
+    class="page"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Wi-Fi Packages
+                </h2>
+
+                <p>
+                    Packages available for voucher generation.
+                </p>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                onclick="alert('Package creation can be connected to your database.')"
+            >
+                + Add Package
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Package
+                        </th>
+
+                        <th>
+                            Duration
+                        </th>
+
+                        <th>
+                            Data
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <strong>Daily</strong>
+                        </td>
+
+                        <td>
+                            Unlimited
+                        </td>
+
+                        <td>
+                            2 GB
+                        </td>
+
+                        <td>
+                            GH₵ 8.00
+                        </td>
+
+                        <td>
+                            <span class="badge badge-active">
+                                ACTIVE
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            <strong>Weekly</strong>
+                        </td>
+
+                        <td>
+                            Unlimited
+                        </td>
+
+                        <td>
+                            4 GB
+                        </td>
+
+                        <td>
+                            GH₵ 20.00
+                        </td>
+
+                        <td>
+                            <span class="badge badge-active">
+                                ACTIVE
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            <strong>Adventure</strong>
+                        </td>
+
+                        <td>
+                            Unlimited
+                        </td>
+
+                        <td>
+                            5 GB
+                        </td>
+
+                        <td>
+                            GH₵ 24.00
+                        </td>
+
+                        <td>
+                            <span class="badge badge-active">
+                                ACTIVE
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        
+
+                        <td>
+                            Unlimited
+                        </td>
+
+                        <td>
+                            6 GB
+                        </td>
+
+                        <td>
+                            GH₵ 29.00
+                        </td>
+
+                        <td>
+                            <span class="badge badge-active">
+                                ACTIVE
+                            </span>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CUSTOMERS
+========================================================= -->
+
+<section
+    id="customers"
+    class="page"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Customers
+                </h2>
+
+                <p>
+                    Manage registered ConnectNet customers.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="empty">
+
+            <div style="font-size:45px">
+                👥
+            </div>
+
+            <h3>
+                Customer database
+            </h3>
+
+            <p>
+                Connect this section to your backend database
+                to display registered users.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SALES
+========================================================= -->
+
+<section
+    id="sales"
+    class="page"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Purchases & Payments
+                </h2>
+
+                <p>
+                    Monitor customer purchases and payments.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="empty">
+
+            <div style="font-size:45px">
+                💳
+            </div>
+
+            <h3>
+                Payment records
+            </h3>
+
+            <p>
+                Connect this page to your payment gateway
+                and database to display transactions.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SUPPORT
+========================================================= -->
+
+<section
+    id="support"
+    class="page"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Support Tickets
+                </h2>
+
+                <p>
+                    Handle customer support requests.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="empty">
+
+            <div style="font-size:45px">
+                🎧
+            </div>
+
+            <h3>
+                No support tickets loaded
+            </h3>
+
+            <p>
+                Connect this section to the support database
+                to display customer requests.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     HOTSPOTS
+========================================================= -->
+
+<section
+    id="hotspots"
+    class="page"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Hotspot Locations
+                </h2>
+
+                <p>
+                    Monitor your Wi-Fi locations.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Router
+                        </th>
+
+                        <th>
+                            Connected Users
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            Hostel A
+                        </td>
+
+                        <td>
+                            Router-01
+                        </td>
+
+                        <td>
+                            0
+                        </td>
+
+                        <td>
+
+                            <span class="badge badge-active">
+                                ONLINE
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            School Library
+                        </td>
+
+                        <td>
+                            Router-02
+                        </td>
+
+                        <td>
+                            0
+                        </td>
+
+                        <td>
+
+                            <span class="badge badge-active">
+                                ONLINE
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SETTINGS
+========================================================= -->
+
+<section
+    id="settings"
+    class="page"
+>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    System Settings
+                </h2>
+
+                <p>
+                    Configure your ConnectNet admin system.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Business Name
+                </label>
+
+                <input
+                    class="input"
+                    value="ConnectNet"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Support Email
+                </label>
+
+                <input
+                    class="input"
+                    value="support@connectnet.com"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn btn-primary"
+            onclick="saveSettings()"
+        >
+            Save Settings
+        </button>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+</div>
+
+
+
+<!-- =========================================================
+     VOUCHER GENERATOR MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="voucherModal"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>
+                    Generate Vouchers
+                </h2>
+
+                <p style="font-size:12px;color:#718096">
+                    Create hotspot access codes.
+                </p>
+
+            </div>
+
+            <button
+                class="close"
+                onclick="closeVoucherModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Wi-Fi Package
+            </label>
+
+            <select
+                id="package"
+                class="select"
+                onchange="updatePackagePreview()"
+            >
+
+                <option
+                    value="Daily|2GB|8|8"
+                >
+                    Daily — 2GB — GH₵ 8.00
+                </option>
+
+                <option
+                    value="Weekly|4GB|20|20"
+                >
+                    Weekly — 4GB — GH₵ 20
+                </option>
+
+                <option
+                    value="Monthly|5GB|24|24"
+                >
+                    Monthly — 5GB — GH₵ 24
+                </option>
+
+                <option
+                    value="Daily|6GB|29|29"
+                >
+                    Daily — 6GB — GH₵ 29.00
+                </option>
+
+                <option
+                    value="Weekly|8GB|38|38"
+                >
+                    Weekly — 8GB — GH₵ 38
+                </option>
+
+                <option
+                    value="Monthly|10GB|44|44"
+                >
+                    Monthly — 10GB — GH₵ 44
+                </option>
+
+                <option
+                    value="Daily|15GB|69|69"
+                >
+                    Daily — 15GB — GH₵ 69.00
+                </option>
+
+                <option
+                    value="Weekly|20GB|88|88"
+                >
+                    Weekly — 20GB — GH₵ 88
+                </option>
+
+                <option
+                    value="Monthly|25GB|110|110"
+                >
+                    Monthly — 25GB — GH₵ 110
+                </option>
+
+                <option
+                    value="Daily|30GB|130|130"
+                >
+                    Daily — 30GB — GH₵ 130
+                </option>
+
+                <option
+                    value="Weekly|40GB|170|170"
+                >
+                    Weekly — 40GB — GH₵ 170
+                </option>
+
+                <option
+                    value="Monthly|50GB|220|220"
+                >
+                    Monthly — 50GB — GH₵ 220
+                </option>
+
+
+
+            </select>
+
+        </div>
+
+
+        <div class="package-preview">
+
+            <strong id="previewName">
+                Daily Package
+            </strong>
+
+            <p id="previewDetails">
+                24 Hours • 5 GB • GH₵ 5
+            </p>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    class="input"
+                    value="10"
+                    min="1"
+                    max="500"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Code Length
+                </label>
+
+                <select
+                    id="codeLength"
+                    class="select"
+                >
+
+                    <option value="8">
+                        8 Characters
+                    </option>
+
+                    <option value="10">
+                        10 Characters
+                    </option>
+
+                    <option value="12">
+                        12 Characters
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Voucher Prefix
+            </label>
+
+            <input
+                type="text"
+                id="prefix"
+                class="input"
+                value="CN"
+                maxlength="5"
+                placeholder="Example: CN"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Hotspot Location
+            </label>
+
+            <select
+                id="voucherLocation"
+                class="select"
+            >
+
+                <option>
+                    Hostel A
+                </option>
+
+                <option>
+                    Hostel B
+                </option>
+
+                <option>
+                    School Library
+                </option>
+
+                <option>
+                    School Block
+                </option>
+
+                <option>
+                    Business Center
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="btn btn-primary"
+            style="width:100%;padding:14px"
+            onclick="generateVouchers()"
+        >
+            🎟️ Generate Vouchers
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     GENERATED VOUCHERS MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="generatedModal"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>
+                    Vouchers Generated
+                </h2>
+
+                <p style="font-size:12px;color:#718096">
+                    Your new access codes are ready.
+                </p>
+
+            </div>
+
+            <button
+                class="close"
+                onclick="closeGeneratedModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            id="generatedList"
+            class="generated-list"
+        >
+        </div>
+
+
+        <div style="display:flex;gap:8px">
+
+            <button
+                class="btn btn-primary"
+                style="flex:1"
+                onclick="copyGeneratedVouchers()"
+            >
+                Copy All
+            </button>
+
+            <button
+                class="btn btn-outline"
+                style="flex:1"
+                onclick="printGeneratedVouchers()"
+            >
+                Print
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* ==========================================================
+   DATA
+========================================================== */
+
+let vouchers =
+    JSON.parse(
+        localStorage.getItem(
+            "connectnet_vouchers"
+        )
+    ) || [];
+
+
+
+/* ==========================================================
+   PAGE NAVIGATION
+========================================================== */
+
+function showPage(
+    pageId,
+    button
+) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            page => page.classList.remove("active")
+        );
+
+
+    document
+        .getElementById(pageId)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll(".menu-item")
+        .forEach(
+            item => item.classList.remove("active")
+        );
+
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+
+    const titles = {
+
+        dashboard: "Dashboard",
+
+        vouchers: "Voucher Management",
+
+        packages: "Wi-Fi Packages",
+
+        customers: "Customers",
+
+        sales: "Purchases & Payments",
+
+        support: "Support Tickets",
+
+        hotspots: "Hotspot Locations",
+
+        settings: "System Settings"
+
+    };
+
+
+    document.getElementById(
+        "pageTitle"
+    ).textContent =
+        titles[pageId] || "Dashboard";
+
+
+    if (
+        window.innerWidth <= 750
+    ) {
+
+        document
+            .getElementById("sidebar")
+            .classList.remove("open");
+
+    }
+
+    renderAll();
+
+}
+
+
+
+function showPageById(
+    pageId
+) {
+
+    const button =
+        [...document.querySelectorAll(".menu-item")]
+        .find(
+            btn =>
+                btn.getAttribute("onclick") &&
+                btn.getAttribute("onclick")
+                .includes("'" + pageId + "'")
+        );
+
+
+    showPage(
+        pageId,
+        button
+    );
+
+}
+
+
+
+/* ==========================================================
+   SIDEBAR
+========================================================== */
+
+function toggleSidebar() {
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+
+/* ==========================================================
+   VOUCHER MODAL
+========================================================== */
+
+function openVoucherModal() {
+
+    document
+        .getElementById("voucherModal")
+        .classList.add("show");
+
+}
+
+
+function closeVoucherModal() {
+
+    document
+        .getElementById("voucherModal")
+        .classList.remove("show");
+
+}
+
+
+
+/* ==========================================================
+   PACKAGE PREVIEW
+========================================================== */
+
+function updatePackagePreview() {
+
+    const value =
+        document.getElementById(
+            "package"
+        ).value;
+
+
+    const data =
+        value.split("|");
+
+
+    const name =
+        data[0];
+
+    const duration =
+        data[1];
+
+    const dataLimit =
+        data[2];
+
+    const price =
+        data[3];
+
+
+    document.getElementById(
+        "previewName"
+    ).textContent =
+        name + " Package";
+
+
+    document.getElementById(
+        "previewDetails"
+    ).textContent =
+        duration +
+        " • " +
+        dataLimit +
+        " GB • GH₵ " +
+        price;
+
+}
+
+
+
+/* ==========================================================
+   RANDOM VOUCHER CODE
+========================================================== */
+
+function randomCharacters(
+    length
+) {
+
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+
+    let result = "";
+
+
+    for (
+        let i = 0;
+        i < length;
+        i++
+    ) {
+
+        result +=
+            chars.charAt(
+                Math.floor(
+                    Math.random() *
+                    chars.length
+                )
+            );
+
+    }
+
+
+    return result;
+
+}
+
+
+
+/* ==========================================================
+   GENERATE VOUCHERS
+========================================================== */
+
+function generateVouchers() {
+
+    const packageValue =
+        document.getElementById(
+            "package"
+        ).value;
+
+
+    const quantity =
+        parseInt(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+
+    const codeLength =
+        parseInt(
+            document.getElementById(
+                "codeLength"
+            ).value
+        );
+
+
+    const prefix =
+        document.getElementById(
+            "prefix"
+        ).value
+        .toUpperCase()
+        .replace(
+            /[^A-Z0-9]/g,
+            ""
+        );
+
+
+    const location =
+        document.getElementById(
+            "voucherLocation"
+        ).value;
+
+
+    if (
+        !quantity ||
+        quantity < 1 ||
+        quantity > 500
+    ) {
+
+        alert(
+            "Enter a quantity between 1 and 500."
+        );
+
+        return;
+
+    }
+
+
+    const data =
+        packageValue.split("|");
+
+
+    const packageName =
+        data[0];
+
+    const duration =
+        data[1];
+
+    const dataLimit =
+        data[2];
+
+    const price =
+        parseFloat(data[3]);
+
+
+    const generated = [];
+
+
+    for (
+        let i = 0;
+        i < quantity;
+        i++
+    ) {
+
+        let code;
+
+        do {
+
+            code =
+                prefix +
+                randomCharacters(
+                    Math.max(
+                        4,
+                        codeLength -
+                        prefix.length
+                    )
+                );
+
+        } while (
+            vouchers.some(
+                v =>
+                    v.code === code
+            )
+        );
+
+
+        const voucher = {
+
+            id:
+                Date.now() +
+                Math.random(),
+
+            code: code,
+
+            package:
+                packageName,
+
+            duration:
+                duration,
+
+            data:
+                dataLimit + " GB",
+
+            price:
+                price,
+
+            location:
+                location,
+
+            status:
+                "active",
+
+            created:
+                new Date()
+                .toISOString(),
+
+            usedBy:
+                null
+
+        };
+
+
+        vouchers.push(
+            voucher
+        );
+
+
+        generated.push(
+            voucher
+        );
+
+    }
+
+
+    saveVouchers();
+
+
+    closeVoucherModal();
+
+
+    showGeneratedVouchers(
+        generated
+    );
+
+
+    renderAll();
+
+}
+
+
+
+/* ==========================================================
+   SAVE DATA
+========================================================== */
+
+function saveVouchers() {
+
+    localStorage.setItem(
+        "connectnet_vouchers",
+        JSON.stringify(
+            vouchers
+        )
+    );
+
+}
+
+
+
+/* ==========================================================
+   SHOW GENERATED VOUCHERS
+========================================================== */
+
+let lastGenerated = [];
+
+
+function showGeneratedVouchers(
+    generated
+) {
+
+    lastGenerated =
+        generated;
+
+
+    const container =
+        document.getElementById(
+            "generatedList"
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    generated.forEach(
+        voucher => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "generated-voucher";
+
+
+            div.innerHTML = `
+
+                <strong>
+                    ${voucher.code}
+                </strong>
+
+                <span>
+                    ${voucher.package}
+                    •
+                    ${voucher.duration}
+                </span>
+
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
+
+
+    document
+        .getElementById(
+            "generatedModal"
+        )
+        .classList.add(
+            "show"
+        );
+
+}
+
+
+
+/* ==========================================================
+   CLOSE GENERATED MODAL
+========================================================== */
+
+function closeGeneratedModal() {
+
+    document
+        .getElementById(
+            "generatedModal"
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+
+/* ==========================================================
+   COPY GENERATED VOUCHERS
+========================================================== */
+
+function copyGeneratedVouchers() {
+
+    const text =
+        lastGenerated
+        .map(
+            voucher =>
+                voucher.code
+        )
+        .join("\n");
+
+
+    navigator.clipboard
+        .writeText(text)
+        .then(
+            () => {
+
+                alert(
+                    "Voucher codes copied."
+                );
+
+            }
+        );
+
+}
+
+
+
+/* ==========================================================
+   PRINT VOUCHERS
+========================================================== */
+
+function printGeneratedVouchers() {
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank"
+        );
+
+
+    let html = `
+
+        <html>
+
+        <head>
+
+            <title>
+                ConnectNet Vouchers
+            </title>
+
+            <style>
+
+                body {
+                    font-family: Arial;
+                    padding: 25px;
+                }
+
+                h1 {
+                    text-align:center;
+                }
+
+                .grid {
+                    display:grid;
+                    grid-template-columns:
+                    repeat(3,1fr);
+                    gap:12px;
+                }
+
+                .voucher {
+                    border:1px dashed #555;
+                    padding:20px;
+                    text-align:center;
+                }
+
+                .code {
+                    font-family:monospace;
+                    font-size:20px;
+                    font-weight:bold;
+                }
+
+                small {
+                    color:#666;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <h1>
+                ConnectNet Wi-Fi
+            </h1>
+
+            <div class="grid">
+
+    `;
+
+
+    lastGenerated.forEach(
+        voucher => {
+
+            html += `
+
+                <div class="voucher">
+
+                    <div class="code">
+                        ${voucher.code}
+                    </div>
+
+                    <br>
+
+                    <strong>
+                        ${voucher.package}
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        ${voucher.duration}
+                        |
+                        ${voucher.data}
+                    </small>
+
+                    <br>
+
+                    <small>
+                        ${voucher.location}
+                    </small>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+            </div>
+
+        </body>
+
+        </html>
+
+    `;
+
+
+    printWindow.document.write(
+        html
+    );
+
+    printWindow.document.close();
+
+    printWindow.print();
+
+}
+
+
+
+/* ==========================================================
+   RENDER VOUCHERS
+========================================================== */
+
+function renderVouchers() {
+
+    const table =
+        document.getElementById(
+            "voucherTable"
+        );
+
+
+    if (!table) {
+        return;
+    }
+
+
+    const search =
+        (
+            document.getElementById(
+                "voucherSearch"
+            )?.value || ""
+        )
+        .toLowerCase();
+
+
+    const filter =
+        document.getElementById(
+            "statusFilter"
+        )?.value || "all";
+
+
+    const filtered =
+        vouchers.filter(
+            voucher => {
+
+                const matchesSearch =
+                    voucher.code
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    voucher.package
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    voucher.location
+                        .toLowerCase()
+                        .includes(search);
+
+
+                const matchesStatus =
+                    filter === "all" ||
+                    voucher.status === filter;
+
+
+                return (
+                    matchesSearch &&
+                    matchesStatus
+                );
+
+            }
+        );
+
+
+    table.innerHTML =
+        "";
+
+
+    if (
+        filtered.length === 0
+    ) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="empty"
+                >
+
+                    No vouchers found.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    filtered
+        .slice()
+        .reverse()
+        .forEach(
+            voucher => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                const created =
+                    new Date(
+                        voucher.created
+                    )
+                    .toLocaleDateString();
+
+
+                row.innerHTML = `
+
+                    <td>
+
+                        <span class="voucher-code">
+                            ${voucher.code}
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${voucher.package}
+                    </td>
+
+                    <td>
+                        ${voucher.duration}
+                    </td>
+
+                    <td>
+                        GH₵ ${voucher.price}
+                    </td>
+
+                    <td>
+                        ${statusBadge(
+                            voucher.status
+                        )}
+                    </td>
+
+                    <td>
+                        ${created}
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="btn btn-small btn-outline"
+                                onclick="copyVoucher('${voucher.code}')"
+                            >
+                                Copy
+                            </button>
+
+                            <button
+                                class="btn btn-small ${voucher.status === 'active'
+                                    ? 'btn-danger'
+                                    : 'btn-success'}"
+                                onclick="toggleVoucher('${voucher.id}')"
+                            >
+                                ${voucher.status === 'active'
+                                    ? 'Disable'
+                                    : 'Activate'}
+                            </button>
+
+                            <button
+                                class="btn btn-small btn-outline"
+                                onclick="deleteVoucher('${voucher.id}')"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(
+                    row
+                );
+
+            }
+        );
+
+}
+
+
+
+/* ==========================================================
+   STATUS BADGE
+========================================================== */
+
+function statusBadge(
+    status
+) {
+
+    const labels = {
+
+        active:
+            "ACTIVE",
+
+        used:
+            "USED",
+
+        expired:
+            "EXPIRED"
+
+    };
+
+
+    const classes = {
+
+        active:
+            "badge-active",
+
+        used:
+            "badge-used",
+
+        expired:
+            "badge-expired"
+
+    };
+
+
+    return `
+
+        <span
+            class="badge ${classes[status] || 'badge-pending'}"
+        >
+            ${labels[status] || status.toUpperCase()}
+        </span>
+
+    `;
+
+}
+
+
+
+/* ==========================================================
+   COPY SINGLE VOUCHER
+========================================================== */
+
+function copyVoucher(
+    code
+) {
+
+    navigator.clipboard
+        .writeText(code)
+        .then(
+            () => {
+
+                alert(
+                    "Voucher copied: " +
+                    code
+                );
+
+            }
+        );
+
+}
+
+
+
+/* ==========================================================
+   ACTIVATE / DISABLE
+========================================================== */
+
+function toggleVoucher(
+    id
+) {
+
+    const voucher =
+        vouchers.find(
+            v =>
+                String(v.id) ===
+                String(id)
+        );
+
+
+    if (!voucher) {
+        return;
+    }
+
+
+    if (
+        voucher.status ===
+        "active"
+    ) {
+
+        voucher.status =
+            "expired";
+
+    } else {
+
+        voucher.status =
+            "active";
+
+    }
+
+
+    saveVouchers();
+
+    renderAll();
+
+}
+
+
+
+/* ==========================================================
+   DELETE VOUCHER
+========================================================== */
+
+function deleteVoucher(
+    id
+) {
+
+    const confirmDelete =
+        confirm(
+            "Delete this voucher?"
+        );
+
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+    vouchers =
+        vouchers.filter(
+            voucher =>
+                String(voucher.id) !==
+                String(id)
+        );
+
+
+    saveVouchers();
+
+    renderAll();
+
+}
+
+
+
+/* ==========================================================
+   DASHBOARD STATISTICS
+========================================================== */
+
+function updateStats() {
+
+    const total =
+        vouchers.length;
+
+
+    const active =
+        vouchers.filter(
+            v =>
+                v.status ===
+                "active"
+        ).length;
+
+
+    const used =
+        vouchers.filter(
+            v =>
+                v.status ===
+                "used"
+        ).length;
+
+
+    const revenue =
+        vouchers
+        .filter(
+            v =>
+                v.status ===
+                "used"
+        )
+        .reduce(
+            (
+                total,
+                voucher
+            ) =>
+                total +
+                Number(
+                    voucher.price ||
+                    0
+                ),
+            0
+        );
+
+
+    document.getElementById(
+        "totalVouchers"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "activeVouchers"
+    ).textContent =
+        active;
+
+
+    document.getElementById(
+        "usedVouchers"
+    ).textContent =
+        used;
+
+
+    document.getElementById(
+        "revenue"
+    ).textContent =
+        "GH₵ " +
+        revenue.toFixed(2);
+
+}
+
+
+
+/* ==========================================================
+   RECENT VOUCHERS
+========================================================== */
+
+function renderRecentVouchers() {
+
+    const table =
+        document.getElementById(
+            "recentVouchers"
+        );
+
+
+    if (!table) {
+        return;
+    }
+
+
+    const recent =
+        vouchers
+        .slice()
+        .reverse()
+        .slice(
+            0,
+            6
+        );
+
+
+    table.innerHTML =
+        "";
+
+
+    if (
+        recent.length === 0
+    ) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="4"
+                    class="empty"
+                >
+
+                    No vouchers generated yet.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    recent.forEach(
+        voucher => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    <span class="voucher-code">
+                        ${voucher.code}
+                    </span>
+
+                </td>
+
+                <td>
+                    ${voucher.package}
+                </td>
+
+                <td>
+                    ${statusBadge(
+                        voucher.status
+                    )}
+                </td>
+
+                <td>
+                    ${new Date(
+                        voucher.created
+                    ).toLocaleDateString()}
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+
+/* ==========================================================
+   RENDER EVERYTHING
+========================================================== */
+
+function renderAll() {
+
+    updateStats();
+
+    renderVouchers();
+
+    renderRecentVouchers();
+
+}
+
+
+
+/* ==========================================================
+   SETTINGS
+========================================================== */
+
+function saveSettings() {
+
+    alert(
+        "Settings saved in this demo."
+    );
+
+}
+
+
+
+/* ==========================================================
+   LOGOUT
+========================================================== */
+
+function logout() {
+
+    const confirmLogout =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+
+    if (
+        confirmLogout
+    ) {
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   CLOSE MODALS WHEN CLICKING OUTSIDE
+========================================================== */
+
+document
+    .getElementById(
+        "voucherModal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                this
+            ) {
+
+                closeVoucherModal();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "generatedModal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                this
+            ) {
+
+                closeGeneratedModal();
+
+            }
+
+        }
+    );
+
+
+
+/* ==========================================================
+   INITIALIZE
+========================================================== */
+
+updatePackagePreview();
+
+renderAll();
+
+</script>
+
+</body>
+</html>

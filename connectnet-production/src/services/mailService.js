@@ -1,0 +1,8 @@
+import nodemailer from 'nodemailer';
+let transporter=null;
+function getTransport(){if(transporter)return transporter;if(!process.env.SMTP_HOST)return null;transporter=nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),secure:String(process.env.SMTP_SECURE)==='true',auth:process.env.SMTP_USER?{user:process.env.SMTP_USER,pass:process.env.SMTP_PASS}:undefined});return transporter;}
+export async function sendVoucherEmail({to,name,username,password,packageName,dataLimit,expiresAt,reference}){
+ const t=getTransport(); if(!t){console.warn('SMTP not configured; voucher email skipped');return false;}
+ await t.sendMail({from:process.env.SMTP_FROM||process.env.SMTP_USER,to,subject:`ConnectNet Wi-Fi voucher — ${packageName}`,html:`<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto"><h2 style="color:#087cf5">ConnectNet</h2><p>Hello ${name},</p><p>Your payment <b>${reference}</b> was confirmed.</p><div style="background:#f3f9ff;padding:20px;border-radius:12px"><p><b>Package:</b> ${packageName}</p><p><b>Data:</b> ${dataLimit}</p><p><b>Username:</b> ${username}</p><p><b>Password:</b> ${password}</p><p><b>Expires:</b> ${expiresAt||'When your bundle is exhausted'}</p></div><p>Connect to the ConnectNet hotspot and use these credentials.</p></div>`});return true;
+}
+export async function sendResetEmail({to,name,resetUrl}){const t=getTransport();if(!t)return false;await t.sendMail({from:process.env.SMTP_FROM||process.env.SMTP_USER,to,subject:'ConnectNet password reset',html:`<p>Hello ${name},</p><p>Reset your password using this link:</p><p><a href="${resetUrl}">${resetUrl}</a></p><p>This link expires in 30 minutes.</p>`});return true;}

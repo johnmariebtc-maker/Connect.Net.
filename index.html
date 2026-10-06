@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login / Sign Up | ConnectNet</title>
+
+  <style>
+
+    /* =========================
+       RESET
+    ========================= */
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --blue: #087cf5;
+      --dark-blue: #06244b;
+      --cyan: #12c9f3;
+      --light-blue: #f3f9ff;
+      --green: #19b76b;
+      --red: #e53935;
+      --text: #102b50;
+      --muted: #64748b;
+      --border: #d9e5f2;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light-blue);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    .navbar {
+      height: 75px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+
+      display: flex;
+      align-items: center;
+
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      width: min(1150px, 92%);
+      margin: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-size: 23px;
+      font-weight: 800;
+
+      color: var(--dark-blue);
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--cyan)
+        );
+
+      color: white;
+
+      display: grid;
+      place-items: center;
+
+      font-size: 23px;
+    }
+
+    .logo small {
+      display: block;
+
+      font-size: 9px;
+
+      color: var(--blue);
+
+      letter-spacing: .5px;
+
+      margin-top: -4px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: #29466b;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-button {
+      padding: 11px 18px;
+
+      border-radius: 9px;
+
+      background: var(--blue);
+
+      color: white;
+
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .auth-page {
+      min-height: calc(100vh - 75px);
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+    }
+
+
+    /* =========================
+       LEFT PANEL
+    ========================= */
+
+    .auth-left {
+
+      background:
+        linear-gradient(
+          rgba(2, 31, 65, .9),
+          rgba(3, 69, 120, .78)
+        ),
+        url(
+          "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80"
+        )
+        center / cover;
+
+      color: white;
+
+      padding: 70px;
+
+      display: flex;
+      align-items: center;
+    }
+
+    .left-content {
+      max-width: 550px;
+      margin: auto;
+    }
+
+    .wifi-badge {
+
+      display: inline-block;
+
+      background: var(--blue);
+
+      padding: 8px 15px;
+
+      border-radius: 30px;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      margin-bottom: 20px;
+    }
+
+    .auth-left h1 {
+
+      font-size: clamp(38px, 5vw, 58px);
+
+      line-height: 1.05;
+
+      margin-bottom: 20px;
+    }
+
+    .auth-left h1 span {
+      color: var(--cyan);
+    }
+
+    .auth-left p {
+
+      font-size: 17px;
+
+      line-height: 1.7;
+
+      color: #e6f2ff;
+
+      margin-bottom: 30px;
+    }
+
+    .benefit {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 13px;
+
+      margin: 16px 0;
+
+      font-size: 15px;
+
+      color: #edf7ff;
+    }
+
+    .benefit-icon {
+
+      width: 38px;
+      height: 38px;
+
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.13);
+
+      display: grid;
+      place-items: center;
+
+      font-size: 18px;
+    }
+
+
+    /* =========================
+       RIGHT PANEL
+    ========================= */
+
+    .auth-right {
+
+      background: white;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 40px 25px;
+    }
+
+    .auth-box {
+
+      width: min(460px, 100%);
+    }
+
+
+    /* =========================
+       AUTH TABS
+    ========================= */
+
+    .auth-tabs {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      background: #edf5fc;
+
+      padding: 5px;
+
+      border-radius: 12px;
+
+      margin-bottom: 30px;
+    }
+
+    .auth-tab {
+
+      border: none;
+
+      background: transparent;
+
+      padding: 13px;
+
+      border-radius: 9px;
+
+      cursor: pointer;
+
+      color: var(--muted);
+
+      font-weight: 800;
+
+      font-size: 14px;
+    }
+
+    .auth-tab.active {
+
+      background: white;
+
+      color: var(--blue);
+
+      box-shadow:
+        0 3px 10px rgba(20,60,100,.08);
+    }
+
+
+    /* =========================
+       HEADINGS
+    ========================= */
+
+    .auth-heading {
+
+      text-align: center;
+
+      margin-bottom: 28px;
+    }
+
+    .auth-heading h2 {
+
+      font-size: 31px;
+
+      margin-bottom: 8px;
+    }
+
+    .auth-heading p {
+
+      color: var(--muted);
+
+      font-size: 14px;
+    }
+
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-group {
+
+      margin-bottom: 17px;
+    }
+
+    .form-group label {
+
+      display: block;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      margin-bottom: 7px;
+    }
+
+    .input-wrapper {
+
+      position: relative;
+    }
+
+    .input {
+
+      width: 100%;
+
+      padding: 14px 45px 14px 14px;
+
+      border: 1px solid #ccd9e8;
+
+      border-radius: 10px;
+
+      font-size: 15px;
+
+      outline: none;
+
+      transition: .2s;
+
+      background: white;
+    }
+
+    .input:focus {
+
+      border-color: var(--blue);
+
+      box-shadow:
+        0 0 0 3px rgba(8,124,245,.1);
+    }
+
+    .input.error {
+
+      border-color: var(--red);
+    }
+
+    .input.success {
+
+      border-color: var(--green);
+    }
+
+    .password-toggle {
+
+      position: absolute;
+
+      right: 13px;
+
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      border: none;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      color: var(--muted);
+
+      font-size: 16px;
+    }
+
+    .error-message {
+
+      display: none;
+
+      color: var(--red);
+
+      font-size: 12px;
+
+      margin-top: 5px;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+
+    /* =========================
+       PASSWORD STRENGTH
+    ========================= */
+
+    .strength {
+
+      margin-top: 8px;
+
+      display: none;
+    }
+
+    .strength.show {
+      display: block;
+    }
+
+    .strength-bar {
+
+      height: 5px;
+
+      background: #e5edf5;
+
+      border-radius: 10px;
+
+      overflow: hidden;
+    }
+
+    .strength-progress {
+
+      height: 100%;
+
+      width: 0%;
+
+      background: var(--red);
+
+      transition: .3s;
+    }
+
+    .strength-text {
+
+      font-size: 11px;
+
+      color: var(--muted);
+
+      margin-top: 4px;
+    }
+
+
+    /* =========================
+       OPTIONS
+    ========================= */
+
+    .form-options {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin: 5px 0 20px;
+
+      font-size: 13px;
+    }
+
+    .remember {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      color: var(--muted);
+    }
+
+    .remember input {
+      color: var(--blue);
+    }
+
+    .forgot {
+
+      color: var(--blue);
+
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+
+    /* =========================
+       MAIN BUTTON
+    ========================= */
+
+    .submit-button {
+
+      width: 100%;
+
+      border: none;
+
+      background: var(--blue);
+
+      color: white;
+
+      padding: 15px;
+
+      border-radius: 10px;
+
+      font-size: 16px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .submit-button:hover {
+
+      background: #0568cf;
+
+      transform: translateY(-1px);
+    }
+
+    .submit-button:disabled {
+
+      opacity: .65;
+
+      cursor: not-allowed;
+
+      transform: none;
+    }
+
+
+    /* =========================
+       DIVIDER
+    ========================= */
+
+    .divider {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      margin: 23px 0;
+
+      color: #94a3b8;
+
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+
+      content: "";
+
+      flex: 1;
+
+      height: 1px;
+
+      background: var(--border);
+    }
+
+
+    /* =========================
+       SOCIAL BUTTONS
+    ========================= */
+
+    .social-buttons {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+    }
+
+    .social-button {
+
+      padding: 12px;
+
+      background: white;
+
+      border: 1px solid var(--border);
+
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      font-weight: 700;
+
+      color: var(--text);
+    }
+
+    .social-button:hover {
+
+      border-color: var(--blue);
+    }
+
+
+    /* =========================
+       SWITCH
+    ========================= */
+
+    .switch-text {
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      margin-top: 23px;
+    }
+
+    .switch-link {
+
+      color: var(--blue);
+
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+
+    /* =========================
+       TERMS
+    ========================= */
+
+    .terms {
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 11px;
+
+      line-height: 1.6;
+
+      margin-top: 18px;
+    }
+
+    .terms a {
+
+      color: var(--blue);
+
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       FORGOT PASSWORD MODAL
+    ========================= */
+
+  
+    .modal {
+
+      position: fixed;
+
+      inset: 0;
+
+      background: rgba(2,25,50,.65);
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+
+      z-index: 500;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+
+      width: min(430px, 100%);
+
+      background: white;
+
+      border-radius: 18px;
+
+      padding: 30px;
+
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    }
+
+    .modal-box h2 {
+
+      margin-bottom: 8px;
+    }
+
+    .modal-box p {
+
+      color: var(--muted);
+
+      font-size: 14px;
+
+      margin-bottom: 20px;
+    }
+
+    .modal-actions {
+
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 15px;
+    }
+
+    .modal-actions button {
+
+      flex: 1;
+    }
+
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+
+      position: fixed;
+
+      bottom: 25px;
+
+      right: 25px;
+
+      background: var(--dark-blue);
+
+      color: white;
+
+      padding: 15px 20px;
+
+      border-radius: 10px;
+
+      display: none;
+
+      z-index: 1000;
+
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width: 850px) {
+
+      .auth-page {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-left {
+        display: none;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .auth-right {
+        min-height: calc(100vh - 75px);
+      }
+
+    }
+
+
+    @media(max-width: 500px) {
+
+      .social-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-right {
+        padding: 30px 18px;
+      }
+
+      .auth-heading h2 {
+        font-size: 27px;
+      }
+
+      .form-options {
+        align-items: flex-start;
+      }
+
+    }
+
+    .btn{
+width: 50%;
+border-radius: 20px;
+font-family: 'Times New Roman', Times, serif;
+font-size: 15px;
+font-weight: bold;
+box-shadow: #087cf5;
+transition: 3s ease-out var(--blue);
+cursor: pointer;
+background-color: #0568cf;
+color: #fff;
+padding: 10px;
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<header class="navbar">
+
+  <div class="nav-container">
+
+    <a href="connectnet-homepage.html" class="logo">
+
+      <span class="logo-icon">
+        ⌁
+      </span>
+
+      <span>
+        ConnectNet
+
+        <small>
+          Stay Connected, Achieve More
+        </small>
+      </span>
+
+    </a>
+
+
+    <nav class="nav-links">
+
+      
+    </nav>
+
+
+    <a href="index.htm" class="nav-button">
+      Get Wi-Fi
+    </a>
+
+  </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     AUTH PAGE
+===================================================== -->
+
+<main class="auth-page">
+
+
+  <!-- ===================================================
+       LEFT SIDE
+  ==================================================== -->
+
+  <section class="auth-left">
+
+    <div class="left-content">
+
+      <span class="wifi-badge">
+        CONNECTNET WI-FI
+      </span>
+
+
+      <h1>
+        Stay Connected.
+        <span>Achieve More.</span>
+      </h1>
+
+
+      <p>
+
+        Create your ConnectNet account to purchase
+        Wi-Fi plans, manage your hotspot access,
+        view your purchases and stay connected.
+
+      </p>
+
+
+      <div class="benefit">
+
+        <span class="benefit-icon">
+          ⚡
+        </span>
+
+        Fast and reliable internet
+
+      </div>
+
+
+      <div class="benefit">
+
+        <span class="benefit-icon">
+          🔐
+        </span>
+
+        Secure customer account
+
+      </div>
+
+
+      <div class="benefit">
+
+        <span class="benefit-icon">
+          📱
+        </span>
+
+        Easy Mobile Money payments
+
+      </div>
+
+
+      <div class="benefit">
+
+        <span class="benefit-icon">
+          📶
+        </span>
+
+        Access your Wi-Fi plans anytime
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       RIGHT SIDE
+  ==================================================== -->
+
+  <section class="auth-right">
+
+    <div class="auth-box">
+
+
+      <!-- TABS -->
+
+      <div class="auth-tabs">
+
+        <button
+          class="auth-tab active"
+          id="loginTab"
+          onclick="showLogin()"
+        >
+          Login
+        </button>
+
+        <button
+          class="auth-tab"
+          id="signupTab"
+          onclick="showSignup()"
+        >
+          Sign Up
+        </button>
+
+      </div>
+
+
+
+      <!-- =================================================
+           LOGIN FORM
+      ================================================== -->
+
+      <div id="loginForm">
+
+
+        <div class="auth-heading">
+
+          <h2>
+            Welcome Back
+          </h2>
+
+          <p>
+            Login to manage your ConnectNet account.
+          </p>
+
+        </div>
+
+
+        <form id="loginFormElement">
+
+
+          <!-- EMAIL / PHONE -->
+
+          <div class="form-group">
+
+            <label for="loginEmail">
+              Email or Phone Number
+            </label>
+
+            <input
+              type="text"
+              id="loginEmail"
+              class="input"
+              placeholder="Enter email or phone number"
+              autocomplete="username"
+              required
+            >
+
+            <div
+              class="error-message"
+              id="loginEmailError"
+            ></div>
+
+          </div>
+
+
+
+          <!-- PASSWORD -->
+
+          <div class="form-group">
+
+            <label for="loginPassword">
+              Password
+            </label>
+
+            <div class="input-wrapper">
+
+              <input
+                type="password"
+                id="loginPassword"
+                class="input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword(
+                  'loginPassword',
+                  this
+                )"
+              >
+                👁
+              </button>
+
+            </div>
+
+            <div
+              class="error-message"
+              id="loginPasswordError"
+            ></div>
+
+          </div>
+
+
+
+          <!-- OPTIONS -->
+
+          <div class="form-options">
+
+            <label class="remember">
+
+              <input
+                type="checkbox"
+                id="remember"
+              >
+
+              Remember me
+
+            </label>
+
+
+            <span
+              class="forgot"
+              onclick="openForgotPassword()"
+            >
+              Forgot password?
+            </span>
+
+          </div>
+
+
+
+          <!-- LOGIN BUTTON -->
+
+          <button
+            type="submit"
+            class="submit-button"
+            id="loginButton"
+          >
+            Login to Account
+          </button>
+
+
+        </form>
+
+
+        <div class="divider">
+          OR
+        </div>
+
+
+        <div class="social-buttons">
+
+          <button
+            class="social-button"
+            onclick="socialLogin('Google')"
+          >
+            🌐 Google
+          </button>
+
+          <button
+            class="social-button"
+            onclick="socialLogin('Facebook')"
+          >
+            f Facebook
+          </button>
+
+        </div>
+
+
+        <div class="switch-text">
+
+          Don't have an account?
+
+          <span
+            class="switch-link"
+            onclick="showSignup()"
+          >
+            Create Account
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           SIGN UP FORM
+      ================================================== -->
+
+      <div id="signupForm" style="display:none;">
+
+
+        <div class="auth-heading">
+
+          <h2>
+            Create Account
+          </h2>
+
+          <p>
+            Join ConnectNet and get connected.
+          </p>
+
+        </div>
+
+
+        <form id="signupFormElement">
+
+
+          <!-- FULL NAME -->
+
+          <div class="form-group">
+
+            <label for="signupName">
+              Full Name
+            </label>
+
+            <input
+              type="text"
+              id="signupName"
+              class="input"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              required
+            >
+
+            <div
+              class="error-message"
+              id="signupNameError"
+            ></div>
+
+          </div>
+
+
+
+          <!-- PHONE -->
+
+          <div class="form-group">
+
+            <label for="signupPhone">
+              Phone Number
+            </label>
+
+            <input
+              type="tel"
+              id="signupPhone"
+              class="input"
+              placeholder="0XX XXX XXXX"
+              autocomplete="tel"
+              required
+            >
+
+            <div
+              class="error-message"
+              id="signupPhoneError"
+            ></div>
+
+          </div>
+
+
+
+          <!-- EMAIL -->
+
+          <div class="form-group">
+
+            <label for="signupEmail">
+              Email Address
+            </label>
+
+            <input
+              type="email"
+              id="signupEmail"
+              class="input"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+
+            <div
+              class="error-message"
+              id="signupEmailError"
+            ></div>
+
+          </div>
+
+
+
+          <!-- PASSWORD -->
+
+          <div class="form-group">
+
+            <label for="signupPassword">
+              Password
+            </label>
+
+            <div class="input-wrapper">
+
+              <input
+                type="password"
+                id="signupPassword"
+                class="input"
+                placeholder="Create a strong password"
+                autocomplete="new-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword(
+                  'signupPassword',
+                  this
+                )"
+              >
+                👁
+              </button>
+
+            </div>
+
+
+            <div
+              class="strength"
+              id="passwordStrength"
+            >
+
+              <div class="strength-bar">
+
+                <div
+                  class="strength-progress"
+                  id="strengthProgress"
+                ></div>
+
+              </div>
+
+              <div
+                class="strength-text"
+                id="strengthText"
+              >
+                Password strength
+              </div>
+
+            </div>
+
+
+            <div
+              class="error-message"
+              id="signupPasswordError"
+            ></div>
+
+          </div>
+
+
+
+          <!-- CONFIRM PASSWORD -->
+
+          <div class="form-group">
+
+            <label for="confirmPassword">
+              Confirm Password
+            </label>
+
+            <div class="input-wrapper">
+
+              <input
+                type="password"
+                id="confirmPassword"
+                class="input"
+                placeholder="Repeat your password"
+                autocomplete="new-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword(
+                  'confirmPassword',
+                  this
+                )"
+              >
+                👁
+              </button>
+
+            </div>
+
+            <div
+              class="error-message"
+              id="confirmPasswordError"
+            ></div>
+
+          </div>
+
+
+
+          <!-- TERMS -->
+
+          <div class="form-options">
+
+            <label class="remember">
+
+              <input
+                type="checkbox"
+                id="terms"
+                required
+              >
+
+              <span>
+                I agree to the
+                <a
+                  href="#"
+                  style="color:#087cf5"
+                >
+                  Terms
+                </a>
+                and
+                <a
+                  href="#"
+                  style="color:#087cf5"
+                >
+                  Privacy Policy
+                </a>
+              </span>
+
+            </label>
+
+          </div>
+
+
+
+          <!-- SIGN UP BUTTON -->
+
+          <button
+            type="submit"
+            class="submit-button"
+            id="signupButton"
+          >
+            Create My Account
+          </button>
+
+
+        </form>
+
+
+        <div class="divider">
+          OR
+        </div>
+
+
+        <div class="social-buttons">
+
+          <button
+            class="social-button"
+            onclick="socialLogin('Google')"
+          >
+            🌐 Google
+          </button>
+
+          <button
+            class="social-button"
+            onclick="socialLogin('Facebook')"
+          >
+            f Facebook
+          </button>
+
+        </div>
+
+
+        <div class="switch-text">
+
+          Already have an account?
+
+          <span
+            class="switch-link"
+            onclick="showLogin()"
+          >
+            Login
+
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="terms">
+
+        By using ConnectNet, you agree to our
+        <a href="#">
+          Terms of Service
+        </a>
+        and
+        <a href="#">
+          Privacy Policy
+        </a>.
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     FORGOT PASSWORD MODAL
+===================================================== -->
+
+<div
+  class="modal"
+  id="forgotModal"
+>
+
+  <div class="modal-box">
+
+    <h2>
+      Reset Your Password
+    </h2>
+
+    <p>
+
+      Enter your email address or phone number
+      and we'll help you reset your password.
+
+    </p>
+
+
+    <div class="form-group">
+
+      <label>
+        Email or Phone Number
+      </label>
+
+      <input
+        type="text"
+        id="resetContact"
+        class="input"
+        placeholder="Email or phone number"
+      >
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="btn"
+        style="
+          background:#edf5fc;
+          color:#102b50;
+        "
+        onclick="closeForgotPassword()"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        class="btn btn-primary"
+        onclick="sendReset()"
+      >
+        Send Reset
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+
+<script>
+
+  /* =====================================================
+     SWITCH LOGIN / SIGN UP
+  ===================================================== */
+
+  function showLogin() {
+
+    document.getElementById(
+      "loginForm"
+    ).style.display = "block";
+
+    document.getElementById(
+      "signupForm"
+    ).style.display = "none";
+
+
+    document.getElementById(
+      "loginTab"
+    ).classList.add("active");
+
+    document.getElementById(
+      "signupTab"
+    ).classList.remove("active");
+
+  }
+
+
+  function showSignup() {
+
+    document.getElementById(
+      "loginForm"
+    ).style.display = "none";
+
+    document.getElementById(
+      "signupForm"
+    ).style.display = "block";
+
+
+    document.getElementById(
+      "loginTab"
+    ).classList.remove("active");
+
+    document.getElementById(
+      "signupTab"
+    ).classList.add("active");
+
+  }
+
+
+
+  /* =====================================================
+     PASSWORD VISIBILITY
+  ===================================================== */
+
+  function togglePassword(
+    inputId,
+    button
+  ) {
+
+    const input =
+      document.getElementById(inputId);
+
+
+    if (
+      input.type === "password"
+    ) {
+
+      input.type = "text";
+
+      button.textContent = "🙈";
+
+    } else {
+
+      input.type = "password";
+
+      button.textContent = "👁";
+
+    }
+
+  }
+
+
+
+  /* =====================================================
+     PASSWORD STRENGTH
+  ===================================================== */
+
+  const signupPassword =
+    document.getElementById(
+      "signupPassword"
+    );
+
+
+  signupPassword.addEventListener(
+    "input",
+    function () {
+
+      const password =
+        this.value;
+
+      const strengthBox =
+        document.getElementById(
+          "passwordStrength"
+        );
+
+      const progress =
+        document.getElementById(
+          "strengthProgress"
+        );
+
+      const text =
+        document.getElementById(
+          "strengthText"
+        );
+
+
+      strengthBox.classList.add(
+        "show"
+      );
+
+
+      let score = 0;
+
+
+      if (password.length >= 8) {
+        score++;
+      }
+
+      if (
+        /[A-Z]/.test(password)
+      ) {
+        score++;
+      }
+
+      if (
+        /[a-z]/.test(password)
+      ) {
+        score++;
+      }
+
+      if (
+        /[0-9]/.test(password)
+      ) {
+        score++;
+      }
+
+      if (
+        /[^A-Za-z0-9]/.test(password)
+      ) {
+        score++;
+      }
+
+
+      if (score <= 1) {
+
+        progress.style.width =
+          "20%";
+
+        progress.style.background =
+          "#e53935";
+
+        text.textContent =
+          "Very weak password";
+
+      }
+
+      else if (score === 2) {
+
+        progress.style.width =
+          "40%";
+
+        progress.style.background =
+          "#f59e0b";
+
+        text.textContent =
+          "Weak password";
+
+      }
+
+      else if (score === 3) {
+
+        progress.style.width =
+          "60%";
+
+        progress.style.background =
+          "#f59e0b";
+
+        text.textContent =
+          "Medium password";
+
+      }
+
+      else if (score === 4) {
+
+        progress.style.width =
+          "80%";
+
+        progress.style.background =
+          "#19b76b";
+
+        text.textContent =
+          "Strong password";
+
+      }
+
+      else {
+
+        progress.style.width =
+          "100%";
+
+        progress.style.background =
+          "#19b76b";
+
+        text.textContent =
+          "Very strong password";
+
+      }
+
+    }
+  );
+
+
+
+  /* =====================================================
+     HELPER FUNCTIONS
+  ===================================================== */
+
+  function showError(
+    elementId,
+    message
+  ) {
+
+    const element =
+      document.getElementById(
+        elementId
+      );
+
+    element.textContent =
+      message;
+
+    element.classList.add(
+      "show"
+    );
+
+  }
+
+
+  function clearError(
+    elementId
+  ) {
+
+    const element =
+      document.getElementById(
+        elementId
+      );
+
+    element.textContent = "";
+
+    element.classList.remove(
+      "show"
+    );
+
+  }
+
+
+  function showToast(
+    message
+  ) {
+
+    const toast =
+      document.getElementById(
+        "toast"
+      );
+
+    toast.textContent =
+      message;
+
+    toast.classList.add(
+      "show"
+    );
+
+
+    setTimeout(
+      function () {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3500
+    );
+
+  }
+
+
+
+  /* =====================================================
+     LOGIN VALIDATION
+  ===================================================== */
+
+  document.getElementById(
+    "loginFormElement"
+  ).addEventListener(
+    "submit",
+    function(event) {
+
+      event.preventDefault();
+
+
+      const contact =
+        document.getElementById(
+          "loginEmail"
+        ).value.trim();
+
+
+      const password =
+        document.getElementById(
+          "loginPassword"
+        ).value;
+
+
+      clearError(
+        "loginEmailError"
+      );
+
+      clearError(
+        "loginPasswordError"
+      );
+
+
+      let valid = true;
+
+
+      if (!contact) {
+
+        showError(
+          "loginEmailError",
+          "Please enter your email or phone number."
+        );
+
+        valid = false;
+
+      }
+
+
+      if (!password) {
+
+        showError(
+          "loginPasswordError",
+          "Please enter your password."
+        );
+
+        valid = false;
+
+      }
+
+
+      if (!valid) {
+        return;
+      }
+
+
+      const button =
+        document.getElementById(
+          "loginButton"
+        );
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "Logging in...";
+
+
+      /*
+        DEMO LOGIN
+
+        A real application should send:
+
+        POST /api/auth/login
+
+        {
+          contact,
+          password
+        }
+
+        The server should verify the
+        password securely and create a
+        session/token.
+      */
+
+
+      setTimeout(
+        function () {
+
+          button.disabled = false;
+
+          button.textContent =
+            "Login to Account";
+
+
+          showToast(
+            "Demo login successful!"
+          );
+
+        },
+        1200
+      );
+
+    }
+  );
+
+
+
+  /* =====================================================
+     SIGN UP VALIDATION
+  ===================================================== */
+
+  document.getElementById(
+    "signupFormElement"
+  ).addEventListener(
+    "submit",
+    function(event) {
+
+      event.preventDefault();
+
+
+      const name =
+        document.getElementById(
+          "signupName"
+        ).value.trim();
+
+
+      const phone =
+        document.getElementById(
+          "signupPhone"
+        ).value.trim();
+
+
+      const email =
+        document.getElementById(
+          "signupEmail"
+        ).value.trim();
+
+
+      const password =
+        document.getElementById(
+          "signupPassword"
+        ).value;
+
+
+      const confirmPassword =
+        document.getElementById(
+          "confirmPassword"
+        ).value;
+
+
+      const terms =
+        document.getElementById(
+          "terms"
+        ).checked;
+
+
+      clearError(
+        "signupNameError"
+      );
+
+      clearError(
+        "signupPhoneError"
+      );
+
+      clearError(
+        "signupEmailError"
+      );
+
+      clearError(
+        "signupPasswordError"
+      );
+
+      clearError(
+        "confirmPasswordError"
+      );
+
+
+      let valid = true;
+
+
+      /* NAME */
+
+      if (name.length < 2) {
+
+        showError(
+          "signupNameError",
+          "Please enter your full name."
+        );
+
+        valid = false;
+
+      }
+
+
+      /* PHONE */
+
+      const phonePattern =
+        /^[0-9+\-\s]{9,15}$/;
+
+
+      if (
+        !phonePattern.test(phone)
+      ) {
+
+        showError(
+          "signupPhoneError",
+          "Enter a valid phone number."
+        );
+
+        valid = false;
+
+      }
+
+
+      /* EMAIL */
+
+      const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+      if (
+        !emailPattern.test(email)
+      ) {
+
+        showError(
+          "signupEmailError",
+          "Enter a valid email address."
+        );
+
+        valid = false;
+
+      }
+
+
+      /* PASSWORD */
+
+      if (password.length < 8) {
+
+        showError(
+          "signupPasswordError",
+          "Password must contain at least 8 characters."
+        );
+
+        valid = false;
+
+      }
+
+
+      /* CONFIRM PASSWORD */
+
+      if (
+        password !== confirmPassword
+      ) {
+
+        showError(
+          "confirmPasswordError",
+          "Passwords do not match."
+        );
+
+        valid = false;
+
+      }
+
+
+      /* TERMS */
+
+      if (!terms) {
+
+        showToast(
+          "Please accept the Terms and Privacy Policy."
+        );
+
+        valid = false;
+
+      }
+
+
+      if (!valid) {
+        return;
+      }
+
+
+      const button =
+        document.getElementById(
+          "signupButton"
+        );
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "Creating Account...";
+
+
+      /*
+        DEMO SIGN UP
+
+        Real application:
+
+        POST /api/auth/register
+
+        {
+          name,
+          phone,
+          email,
+          password
+        }
+
+        IMPORTANT:
+        Passwords must NEVER be stored
+        as plain text in the database.
+
+        Your backend should hash them
+        using a secure password hashing
+        algorithm such as Argon2id or bcrypt.
+      */
+
+
+      setTimeout(
+        function () {
+
+          button.disabled = false;
+
+          button.textContent =
+            "Create My Account";
+
+
+          showToast(
+            "Account created successfully!"
+          );
+
+
+          setTimeout(
+            function () {
+
+              showLogin();
+
+              document.getElementById(
+                "loginEmail"
+              ).value = email;
+
+            },
+            1000
+          );
+
+
+        },
+        1500
+      );
+
+    }
+  );
+
+
+
+  /* =====================================================
+     FORGOT PASSWORD
+  ===================================================== */
+
+  function openForgotPassword() {
+
+    document.getElementById(
+      "forgotModal"
+    ).classList.add(
+      "show"
+    );
+
+  }
+
+
+  function closeForgotPassword() {
+
+    document.getElementById(
+      "forgotModal"
+    ).classList.remove(
+      "show"
+    );
+
+  }
+
+
+  function sendReset() {
+
+    const contact =
+      document.getElementById(
+        "resetContact"
+      ).value.trim();
+
+
+    if (!contact) {
+
+      alert(
+        "Please enter your email or phone number."
+      );
+
+      return;
+
+    }
+
+
+    closeForgotPassword();
+
+
+    showToast(
+      "Password reset instructions sent."
+    );
+
+
+    /*
+      Real backend:
+
+      POST /api/auth/forgot-password
+
+      {
+        contact
+      }
+
+      The server should generate a
+      short-lived reset token and send
+      the reset instructions securely.
+    */
+
+  }
+
+
+
+  /* =====================================================
+     SOCIAL LOGIN
+  ===================================================== */
+
+  function socialLogin(
+    provider
+  ) {
+
+    showToast(
+      provider +
+      " login will be connected later."
+    );
+
+
+    /*
+      Production implementation could use
+      OAuth/OpenID Connect through your
+      authentication provider.
+
+      Never put provider secrets in this
+      JavaScript file.
+    */
+
+  }
+
+
+
+  /* =====================================================
+     CLOSE MODAL WHEN CLICKING OUTSIDE
+  ===================================================== */
+
+  document.getElementById(
+    "forgotModal"
+  ).addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target === this
+      ) {
+
+        closeForgotPassword();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>

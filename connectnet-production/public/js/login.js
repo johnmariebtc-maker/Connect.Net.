@@ -1,0 +1,11 @@
+(async()=>{CN.theme();
+ const q=new URLSearchParams(location.search), next=q.get('next')||'/payment.htm';
+ const loginForm=document.getElementById('loginFormElement'), signupForm=document.getElementById('signupFormElement');
+ const loginTab=document.getElementById('loginTab'),signupTab=document.getElementById('signupTab');
+ function showLogin(){document.getElementById('loginForm').style.display='block';document.getElementById('signupForm').style.display='none';loginTab?.classList.add('active');signupTab?.classList.remove('active')}
+ function showSignup(){document.getElementById('loginForm').style.display='none';document.getElementById('signupForm').style.display='block';signupTab?.classList.add('active');loginTab?.classList.remove('active')}
+ loginTab?.addEventListener('click',e=>{e.preventDefault();showLogin()});signupTab?.addEventListener('click',e=>{e.preventDefault();showSignup()});
+ if(q.get('signup'))showSignup();
+ loginForm?.addEventListener('submit',async e=>{e.preventDefault();const b=document.getElementById('loginButton');b.disabled=true;b.textContent='Signing in…';try{const d=await CN.api('/api/auth/login',{method:'POST',body:JSON.stringify({email:document.getElementById('loginEmail').value,password:document.getElementById('loginPassword').value})});CN.setToken(d.token);location.href=next||d.redirect}catch(err){alert(err.message)}finally{b.disabled=false;b.textContent='Login'}});
+ signupForm?.addEventListener('submit',async e=>{e.preventDefault();const b=document.getElementById('signupButton');const password=document.getElementById('signupPassword').value;if(password!==document.getElementById('confirmPassword').value)return alert('Passwords do not match.');if(!document.getElementById('terms').checked)return alert('Please accept the Terms and Privacy Policy.');b.disabled=true;b.textContent='Creating Account…';try{await CN.api('/api/auth/register',{method:'POST',body:JSON.stringify({name:document.getElementById('signupName').value,phone:document.getElementById('signupPhone').value,email:document.getElementById('signupEmail').value,password})});alert('Account created successfully. Please login to purchase your Wi-Fi bundle.');showLogin();document.getElementById('loginEmail').value=document.getElementById('signupEmail').value}catch(err){alert(err.message)}finally{b.disabled=false;b.textContent='Create My Account'}});
+})();

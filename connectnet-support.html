@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support – ConnectNet</title>
+<script>(function(){var t;try{t=localStorage.getItem('cn-theme')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();</script>
+<style>
+:root{--pri:#1a6cff;--navy:#07173a;--navy2:#0d3a8a;--bg:#f4f8ff;--card:#fff;--ink:#0a1f44;--mut:#5b6b88;--line:#e3eaf6;--me:#1a6cff;--them:#eaf0fb;--shadow:0 8px 24px rgba(10,31,68,.08)}
+:root[data-theme="dark"]{--bg:#0b1324;--card:#131f3d;--ink:#eaf0ff;--mut:#9fb0d0;--line:#23325a;--them:#1b2a52;--shadow:0 8px 24px rgba(0,0,0,.35);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:10px;font-weight:600;font-size:14px;border:1.5px solid var(--pri);color:var(--pri);background:transparent;cursor:pointer;transition:.2s}
+.btn.p{background:var(--pri);color:#fff}.btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.6;transform:none}
+:focus-visible{outline:3px solid #22c3ff;outline-offset:2px}
+/* Header */
+header{position:sticky;top:0;z-index:50;background:var(--card);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:14px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:21px;color:var(--pri)}
+.logo svg{width:32px;height:32px}.logo small{display:block;font-size:9px;font-weight:600;color:var(--mut);margin-top:-3px}
+.links{display:flex;gap:26px;font-size:14px;font-weight:500}
+.links a{padding:6px 0;border-bottom:2px solid transparent}.links a:hover,.links a.on{border-color:var(--pri)}
+.actions{display:flex;gap:10px;align-items:center}
+.burger{display:none;background:none;border:0;font-size:26px;color:var(--ink);cursor:pointer}
+.tgl{position:relative;flex:none;width:68px;height:34px;border-radius:99px;border:1.5px solid var(--line);background:linear-gradient(135deg,#bfe3ff,#ffe9a8);cursor:pointer;padding:0}
+.tgl .k{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:15px;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .35s}
+.tgl .k::before{content:"☀️"}
+[data-theme="dark"] .tgl{background:linear-gradient(135deg,#0b1130,#25358a)}
+[data-theme="dark"] .tgl .k{transform:translateX(34px);background:#1b2550}
+[data-theme="dark"] .tgl .k::before{content:"🌙"}
+/* Hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(110deg,var(--navy) 40%,var(--navy2));padding:48px 0}
+.hero::after{content:"";position:absolute;right:-60px;top:-80px;width:340px;height:340px;border-radius:50%;background:#1a6cff;filter:blur(70px);opacity:.5}
+.hero .wrap{position:relative;display:flex;align-items:center;gap:18px}
+.pin{width:54px;height:54px;border-radius:50%;background:var(--pri);display:grid;place-items:center;font-size:26px;flex:none}
+.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.1}.hero p{color:#cfdcf5;max-width:460px;margin-top:6px}
+/* Quick help */
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-26px;position:relative;z-index:2}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:left;cursor:pointer;box-shadow:var(--shadow);color:var(--ink);transition:.2s}
+.q:hover{transform:translateY(-4px);border-color:var(--pri)}.q i{font-style:normal;font-size:24px}.q b{display:block;font-size:14px;margin-top:6px}.q span{font-size:12px;color:var(--mut)}
+/* Layout */
+.grid{display:grid;grid-template-columns:1fr 1.2fr;gap:22px;padding:30px 0 50px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+.card h2{font-size:18px;margin-bottom:4px}.sub{color:var(--mut);font-size:13px}
+form label{display:block;font-size:13px;font-weight:600;margin:12px 0 4px}form label i{color:#dc2626;font-style:normal}
+form input,form textarea,form select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+form textarea{min-height:110px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form .btn{width:100%;margin-top:16px;padding:13px}
+.msg{font-size:13px;min-height:20px;margin-top:10px;color:#dc2626}.msg.ok{color:#16a34a}
+/* Tickets + chat */
+.tabs{display:flex;gap:8px;overflow-x:auto;margin:14px 0;padding-bottom:4px}
+.tk{flex:none;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;font-size:13px;font-weight:600}
+.tk.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.st{font-size:11px;padding:2px 9px;border-radius:99px;font-weight:700}
+.st.Open{background:#fef3c7;color:#b45309}.st.Answered{background:#dcfce7;color:#15803d}.st.Closed{background:#e5e7eb;color:#4b5563}
+.chead{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.chat{height:340px;overflow-y:auto;padding:14px 4px;display:flex;flex-direction:column;gap:10px}
+.b{max-width:80%;padding:10px 14px;border-radius:16px;font-size:14px;word-wrap:break-word;white-space:pre-wrap}
+.b small{display:block;font-size:10px;opacity:.7;margin-top:3px}
+.b.customer{align-self:flex-end;background:var(--me);color:#fff;border-bottom-right-radius:4px}
+.b.admin{align-self:flex-start;background:var(--them);border-bottom-left-radius:4px}
+.b.system{align-self:center;background:transparent;color:var(--mut);font-size:12px;text-align:center;padding:2px}
+.send{display:flex;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.send input{flex:1;padding:11px 14px;border:1px solid var(--line);border-radius:99px;background:var(--bg);color:var(--ink)}
+.send .btn{border-radius:99px;padding:10px 20px}
+.empty{text-align:center;color:var(--mut);padding:50px 10px;font-size:14px}.empty i{display:block;font-size:40px;font-style:normal;margin-bottom:8px}
+/* Footer */
+footer{background:var(--navy);color:#cfdcf5;padding:34px 0 16px;font-size:14px}
+.fg{display:grid;grid-template-columns:1.3fr 1fr 1.3fr;gap:28px}
+footer h4{color:#fff;margin-bottom:8px}footer a{display:block;margin:5px 0;opacity:.85}footer a:hover{opacity:1;color:#22c3ff}
+.copy{border-top:1px solid rgba(255,255,255,.12);margin-top:22px;padding-top:14px;text-align:center;font-size:12px;opacity:.7}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.quick{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+  .burger{display:block}.actions .btn{display:none}
+  .links{display:none;position:absolute;top:66px;left:0;right:0;background:var(--card);flex-direction:column;gap:0;padding:6px 20px 14px;border-bottom:1px solid var(--line)}
+  .links.open{display:flex}.links a{padding:12px 0;border-bottom:1px solid var(--line)}
+  .fg{grid-template-columns:1fr}
+}
+@media(max-width:480px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <a class="logo" href="connectnet-homepage.html"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M5 15a22 22 0 0 1 30 0"/><path d="M10 21a15 15 0 0 1 20 0"/><path d="M15 27a8 8 0 0 1 10 0"/><circle cx="20" cy="33" r="2" fill="currentColor"/></svg><span>ConnectNet<small>Stay Connected, Achieve More</small></span></a>
+  <nav class="links" id="menu">
+    <a href="connectnet-homepage.html">Home</a><a href="connectnet-homepage.html#packages">Packages</a><a href="connectnet-homepage.html#locations">Locations</a><a href="connectnet-contact.html">Contact</a><a href="#" class="on">Support</a>
+  </nav>
+  <div class="actions">
+    <button class="tgl" id="theme" role="switch" aria-checked="false" aria-label="Day / night mode"><span class="k"></span></button>
+    <a class="btn p" href="connectnet-homepage.html#packages">Get Wi-Fi</a>
+    <button class="burger" id="burger" aria-label="Menu">☰</button>
+  </div>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div class="pin">🎧</div>
+  <div><h1>Support Center</h1><p>Having a problem? Open a ticket and chat directly with our admin team. We reply within 24 hours.</p></div>
+</div></div>
+
+<div class="wrap">
+  <div class="quick" id="quick">
+    <button class="q" data-cat="Login details" data-text="I paid but did not receive my Wi-Fi login details."><i>🔑</i><b>No login details</b><span>Paid but nothing received</span></button>
+    <button class="q" data-cat="Payment issue" data-text="My Mobile Money payment was deducted but the plan is not active."><i>💳</i><b>Payment issue</b><span>Charged, plan not active</span></button>
+    <button class="q" data-cat="Password reset" data-text="Please reset my Wi-Fi password."><i>🔒</i><b>Reset password</b><span>Forgot my password</span></button>
+    <button class="q" data-cat="Slow / no connection" data-text="My internet is slow or not connecting at my location."><i>🐢</i><b>Slow connection</b><span>Speed or signal problem</span></button>
+  </div>
+
+  <div class="grid">
+    <!-- New ticket -->
+    <section class="card" id="new">
+      <h2>Open a Support Ticket</h2><p class="sub">Tell us what's wrong and an admin will respond.</p>
+      <form id="form" novalidate>
+        <div class="two">
+          <div><label for="n">Full Name <i>*</i></label><input id="n" autocomplete="name" placeholder="Your name"></div>
+          <div><label for="p">Phone Number <i>*</i></label><input id="p" type="tel" autocomplete="tel" placeholder="024 123 4567"></div>
+        </div>
+        <div class="two">
+          <div><label for="u">Wi-Fi Username</label><input id="u" placeholder="e.g. student123"></div>
+          <div><label for="c">Category <i>*</i></label>
+            <select id="c"><option>Login details</option><option>Payment issue</option><option>Password reset</option><option>Slow / no connection</option><option>Other</option></select></div>
+        </div>
+        <label for="m">Message <i>*</i></label><textarea id="m" placeholder="Describe your problem..."></textarea>
+        <div class="msg" id="msg" role="alert"></div>
+        <button class="btn p" type="submit">Submit Ticket</button>
+      </form>
+    </section>
+
+    <!-- My tickets / chat -->
+    <section class="card" id="mine">
+      <h2>My Tickets &amp; Chat</h2><p class="sub">Your conversations with the admin appear here.</p>
+      <div class="tabs" id="tabs"></div>
+      <div id="thread"></div>
+    </section>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <div class="fg">
+    <div><b style="color:#fff;font-size:20px">📶 ConnectNet</b><p>Stay Connected, Achieve More</p></div>
+    <div><h4>Quick Links</h4><a href="connectnet-homepage.html">Home</a><a href="connectnet-homepage.html#packages">Packages</a><a href="connectnet-contact.html">Contact Us</a></div>
+    <div><h4>Need help fast?</h4><a href="https://wa.me/233546369715">💬 WhatsApp: +233 55 087 9586</a><a href="mailto:support@connectnet.com">✉️ support@connectnet.com</a></div>
+  </div>
+  <div class="copy">© <span id="yr"></span> ConnectNet. All rights reserved.</div>
+</div></footer>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const KEY = 'cn-tickets', ME = 'cn-me';
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } };
+  const save = d => { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {} };
+  const getMe = () => { try { return localStorage.getItem(ME) || ''; } catch (e) { return ''; } };
+  const time = t => new Date(t).toLocaleString([], { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' });
+  let phone = getMe(), active = null;
+
+  $('#yr').textContent = new Date().getFullYear();
+  $('#burger').onclick = () => $('#menu').classList.toggle('open');
+
+  /* Day / Night */
+  const root = document.documentElement, tg = $('#theme');
+  const apply = m => { root.setAttribute('data-theme', m); tg.setAttribute('aria-checked', m === 'dark'); };
+  apply(root.getAttribute('data-theme'));
+  tg.onclick = () => { const m = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; apply(m); try { localStorage.setItem('cn-theme', m); } catch (e) {} };
+
+  /* Quick help chips prefill the form */
+  $('#quick').addEventListener('click', e => {
+    const q = e.target.closest('.q'); if (!q) return;
+    $('#c').value = q.dataset.cat; $('#m').value = q.dataset.text;
+    $('#new').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('#n').focus();
+  });
+
+  const mine = () => load().filter(t => t.phone === phone);
+
+  function render() {
+    const list = mine();
+    if (!list.length) {
+      $('#tabs').innerHTML = '';
+      $('#thread').innerHTML = '<div class="empty"><i>💬</i>No tickets yet.<br>Submit a ticket and your chat with the admin will show up here.</div>';
+      return;
+    }
+    if (!list.some(t => t.id === active)) active = list[list.length - 1].id;
+    $('#tabs').innerHTML = list.map(t => `<button class="tk ${t.id === active ? 'on' : ''}" data-id="${t.id}">${t.id}</button>`).join('');
+    const t = list.find(x => x.id === active);
+    $('#thread').innerHTML = `
+      <div class="chead"><span><b>${esc(t.category)}</b> · <span class="sub">${esc(t.name)}</span></span><span class="st ${t.status}">${t.status}</span></div>
+      <div class="chat" id="chat" aria-live="polite">${t.messages.map(m => `<div class="b ${m.from}">${esc(m.text)}${m.from === 'system' ? '' : `<small>${m.from === 'admin' ? 'Admin · ' : ''}${time(m.t)}</small>`}</div>`).join('')}</div>
+      <form class="send" id="reply"><input id="rt" placeholder="${t.status === 'Closed' ? 'This ticket is closed' : 'Type your message...'}" ${t.status === 'Closed' ? 'disabled' : ''} autocomplete="off"><button class="btn p" ${t.status === 'Closed' ? 'disabled' : ''}>Send</button></form>`;
+    const c = $('#chat'); c.scrollTop = c.scrollHeight;
+  }
+
+  $('#tabs').addEventListener('click', e => { const b = e.target.closest('.tk'); if (b) { active = b.dataset.id; render(); } });
+
+  $('#thread').addEventListener('submit', e => {
+    if (e.target.id !== 'reply') return;
+    e.preventDefault();
+    const txt = $('#rt').value.trim(); if (!txt) return;
+    const all = load(), t = all.find(x => x.id === active);
+    t.messages.push({ from: 'customer', text: txt, t: Date.now() });
+    if (t.status === 'Answered') t.status = 'Open';
+    save(all); render();
+  });
+
+  /* New ticket */
+  const msg = $('#msg');
+  $('#form').addEventListener('submit', e => {
+    e.preventDefault(); msg.className = 'msg';
+    const name = $('#n').value.trim(), ph = $('#p').value.replace(/\s/g, ''), text = $('#m').value.trim();
+    if (!name || !ph || !text) return msg.textContent = 'Please fill in your name, phone and message.';
+    if (!/^(\+233|0)\d{9}$/.test(ph)) return msg.textContent = 'Enter a valid Ghana phone number.';
+    const all = load();
+    const id = 'CN-' + (1001 + all.length);
+    all.push({ id, name, phone: ph, username: $('#u').value.trim(), category: $('#c').value, status: 'Open',
+      messages: [
+        { from: 'customer', text, t: Date.now() },
+        { from: 'system', text: `Ticket ${id} received. An admin will reply within 24 hours.`, t: Date.now() }
+      ] });
+    save(all);
+    phone = ph; active = id;
+    try { localStorage.setItem(ME, ph); } catch (err) {}
+    /* TODO: also POST to your backend so the admin dashboard receives it
+       fetch('/api/tickets', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(all.at(-1)) }); */
+    e.target.reset(); msg.className = 'msg ok'; msg.textContent = `Ticket ${id} created. Chat with the admin on the right.`;
+    render(); $('#mine').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* Pre-fill phone if returning customer; live-update when admin replies (other tab) */
+  if (phone) $('#p').value = phone;
+  window.addEventListener('storage', e => { if (e.key === KEY) render(); });
+  render();
+})();
+</script>
+</body>
+</html>
